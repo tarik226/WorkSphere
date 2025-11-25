@@ -208,4 +208,80 @@ document
     addExperience();
   });
 
-  
+function detailsWorker(e) {
+//   console.log("inside the detials function");
+  // recuperation d'id assigne a chaque div d'employe cree
+  const element = e.target.dataset.id;
+  console.log(e.target.dataset.id);
+//recherche par id -- worker_distinct contient l'employe trouve format {objet}
+  let worker_distinct = workers.find((ele) => ele.id == element);
+  // console.log(worker_distinct);
+//selection du popup details
+  let container = document.getElementsByClassName("worker_details")[0];
+  //creation du conteneur qui va contient les details d employe
+  let ul_item = document.createElement("div");
+// html details d'experience
+  let experiences = worker_distinct.experiences
+    .map((exp) => {
+      return `
+                <div class="experience">
+                    <strong>${exp.company}</strong>
+                    <strong>Role</strong><p>${exp.role}</p>
+                    <strong>Period</strong><p>${exp.hireDate} -- ${exp.leaveDate}</p>
+                </div>
+            `;
+    })
+    .join("");
+  // insertion du reste html en div
+  ul_item.innerHTML = `
+        <div class="photo_name_role">
+            <div><img src="${worker_distinct.photo}" alt="avatar"></div>
+            <div><h2>${worker_distinct.name}</h2><h4>${worker_distinct.role}</h4></div>
+        </div>
+        <div class="email_phone_location">
+            <strong>Email</strong><p>${worker_distinct.email}</p>
+            <strong>Phone</strong><p>${worker_distinct.number}</p>
+            <strong>location</strong><p>${worker_distinct.location}</p>
+        </div>
+        <div>
+            <h1>Work experiences</h1>
+            <div>${experiences}</div>
+        </div>
+        <button id="close">Close</button>
+    `;
+  // ajout au popup details
+  container.appendChild(ul_item);
+//   affichage de popup 
+  container.style.display = "block";
+//   attacher l evenement click pour cacher le pop up 
+  document.querySelector("#close").addEventListener("click", (e) => {
+    const workerDetails = e.currentTarget.closest(".worker_details");
+    // si il existait cacher le 
+    if (workerDetails) {
+      console.log("inside the if for workerdetails");
+        workerDetails.style.display = "none";
+      // e.stopPropagation();
+    }
+  });
+}
+
+
+function removeEmploye(e) {
+    // recuperation d id  d element clique 
+  let element_removed_id = parseInt(
+    e.target.closest("[data-id]").getAttribute("data-id")
+  );
+  console.log(element_removed_id);
+//   recherche d indice  demplye qui egale l id 
+  const index = workers.findIndex((worker) => worker.id === element_removed_id);
+  console.log(index)
+//   findIndex retourne -1 s il ne trouve rien 
+  if (index !== -1) {
+    // supression d employe du liste par son indice 
+    workers.splice(index, 1);
+    console.log(workers);
+    
+  }
+//   appelle de workerRender pour afficher le changement
+  workerRender("worker-list");
+}
