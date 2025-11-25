@@ -44,3 +44,43 @@ body {
 .worker-list {
     list-style: none;
 }
+
+/* FLOOR MAP */
+
+.floor-map {
+    width: 100%;
+    position: relative;
+
+    /* BACKGROUND IMAGE */
+    background-image: url("plan.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+/* Zones */
+.zone {
+    position: absolute;
+    /* background: rgba(255, 255, 255, 0.78); */
+    padding: 10px;
+    border-radius: 10px;
+    width: 190px;
+    min-height: 95px;
+    border: 2px solid #ccc;
+}
+
+
+.zone-title {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* Button + */
+.add-btn {
+    margin-top: 8px;
+    padding: 5px 8px;
+    border: none;
+    background: #2196F3;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
