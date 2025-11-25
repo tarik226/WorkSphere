@@ -177,3 +177,35 @@ function workerRender(place) {
     listContainer.appendChild(li);
   });
 }
+
+
+function addExperience() {
+    // selection du zone dajout des exps 
+  let experience_container = document.getElementsByClassName(
+    "experience-container"
+  )[0];
+//   creation du div qui va avoir le html d exps
+  let div_experience = document.createElement("div");
+//   ajout du html a div 
+  div_experience.innerHTML = `
+                    <label>Company</label>
+                    <input type="text" class="experience_company">
+                    <label for="">Role</label>
+                    <input type="text" class="experience_role">
+                    <label for="">From</label>
+                    <input type="date" class="experience_hiredate">
+                    <label for="">To</label>
+                    <input type="date" class="experience_leavedate">
+                `;
+    // ajout du champs de saisie a la zone d ajout d exps 
+  experience_container.append(div_experience);
+}
+
+// attachement d evenements pour invoker la fonction 
+document
+  .getElementsByClassName("add-experience")[0]
+  .addEventListener("click", () => {
+    addExperience();
+  });
+
+  
