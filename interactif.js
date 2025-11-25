@@ -184,6 +184,7 @@ function addExperience() {
   let experience_container = document.getElementsByClassName(
     "experience-container"
   )[0];
+  experience_container.innerHTML='';
 //   creation du div qui va avoir le html d exps
   let div_experience = document.createElement("div");
 //   ajout du html a div 

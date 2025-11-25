@@ -85,6 +85,41 @@ body {
     cursor: pointer;
 }
 
+/* -------------------------------- */
+/* WORKER COMPONENT */
+/* -------------------------------- */
+
+.worker {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    gap: 10px;
+    position: relative;
+}
+
+.worker img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.worker .remove {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: none;
+    background: #e53935;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+}
+
 
 /* POSITIONNEMENT DES ZONES */
 
