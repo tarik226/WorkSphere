@@ -285,3 +285,162 @@ function removeEmploye(e) {
 //   appelle de workerRender pour afficher le changement
   workerRender("worker-list");
 }
+
+// attacher l evenemtn click pour l ajout au zone 
+document.querySelectorAll('.add-btn').forEach((elem)=>{
+    elem.addEventListener('click',addWorkerToSection);
+})
+
+function addWorkerToSection(e){  
+    // recuperation du 2class d element ou la touche plus est clique  
+let salle = e.target.closest('.zone').classList[1];
+// appelle de fonction addToZone selon salle 
+switch (salle) {
+  case "conference":
+    console.log('conference');
+    addToZone(e,null);
+    break;
+  case "reception":
+    console.log('reception');
+    // addToReception();
+    addToZone(e,'Receptionist');
+    break;
+  case "servers":
+    console.log('servers');
+    addToZone(e,'IT_guy');
+    break;
+  case "security-room":
+    console.log('security-room');
+    addToZone(e,'Security')
+    break;
+  case "staff-room":
+    console.log('staff-room');
+    addToZone(e,null)
+    break;
+  case "archive":
+    console.log('archive');
+    addToZone(e,'Cleaning');
+    break;
+
+  default:
+    console.log('chambre invalide');
+    
+    break;
+}}
+
+function addToZone(e,filter){
+    // affichage de popup de choisie 
+  document.getElementsByClassName('choice_worker')[0].style.display="block";
+  workerRenderChoice(e,filter);
+}
+
+function workerRenderChoice(e,filter){
+    // selection du liste des employes 
+  const listContainer = document.getElementsByClassName('choice_worker_list')[0];
+//   savoir quelle zone on va ajouter l employe  
+  let zone =e.target.closest('.zone');
+  listContainer.innerHTML = "";
+  if (filter!=null) {
+    // filtrer la liste selon le 2eme parametre
+      workers.filter((w)=> w.role==filter).forEach((worker) => {
+        // creation du balise li 
+    let li = document.createElement("li");
+    // ajout du class worker
+    li.className = "worker";
+    // ajout d attribut data-id
+    li.dataset.id = worker.id;
+    // ajout d image nom et role d employe
+    li.innerHTML = `
+            <img src="${worker.photo}" alt="user_photo"/>
+            <div>
+                <strong>${worker.name}</strong><br/>
+                ${worker.role}
+            </div>
+            <button class="remove">X</button>
+        `;
+        // ajout a la popup
+        listContainer.appendChild(li);
+    li.addEventListener("click", function(e){
+      // console.log(e.target.dataset.id);
+    //   recuperation d id d employe clique
+      let id=e.target.dataset.id;
+    //   recherche d employe 
+      let worker =workers.find((w)=>w.id==id);
+      zone.style.backgroundColor='green';
+    //   remplir l attribut location a l employe 
+      worker.location=zone.classList[1];
+    //   console.log(worker);
+    //   console.log(document.getElementsByClassName(zone.classList[1])[0].children.length);
+    //   limitation sur le nombre d employe par zone  
+      if (document.getElementsByClassName(zone.classList[1])[0].children.length>=5) {
+        // console.log('inside the number of children if');
+        // avertissement 
+        window.alert('le nombre d\'employés depasees');
+        return;
+      } else {
+        // creation du div qui avoir l employe 
+         let worker_html=document.createElement('div');
+        //  ajout du class worker 
+      worker_html.classList.add('worker');
+    //   remplir de html 
+      worker_html.innerHTML= `
+            <img src="${worker.photo}" alt="user_photo"/>
+            <div>
+                <strong>${worker.name}</strong><br/>
+                ${worker.role}
+            </div>
+            <button class="remove">X</button>
+        `;
+        // suppression d employe de la zone 
+      worker_html.querySelector('.remove').addEventListener('click',(e)=>{
+        console.log('inside the event');
+        
+          e.target.closest('.worker').remove();
+      })
+    //   ajout d employe a la zone 
+      zone.append(worker_html);
+    //   li.remove();
+      }
+     
+      // document.getElementsByClassName(zone.classList[1])[0].style.opaccity='0.5'
+    //   li.onclick=null;
+    });
+
+    const removeButton = li.querySelector(".remove");
+    // console.log(removeButton);
+    removeButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      removeEmploye();
+
+    });
+
+    
+})}}
+
+// attacher l evenemnt de chngement d input pour afficher l image live 
+document.getElementById('worker-photo').addEventListener('change',(e)=>{
+  document.querySelector('#worker_round').setAttribute('src', document.getElementById('worker-photo').value);
+})
+
+document.addEventListener("DOMContentLoaded", function () {
+    if (document.getElementsByClassName('reception')[0].querySelector("div")) {
+  return;
+} else {
+    document.getElementsByClassName('reception')[0].style.backgroundColor='red';
+  }
+  if (document.getElementsByClassName('servers')[0].querySelector("div")) {
+  return;
+} else {
+    document.getElementsByClassName('servers')[0].style.backgroundColor='red';
+  }
+ if (document.getElementsByClassName('security-room')[0].querySelector("div")) {
+  return;
+} else {
+    document.getElementsByClassName('security-room')[0].style.backgroundColor='red';
+  }
+ if (document.getElementsByClassName('archive')[0].querySelector("div")) {
+  return;
+} else {
+    document.getElementsByClassName('archive')[0].style.backgroundColor='red';
+  }
+})
