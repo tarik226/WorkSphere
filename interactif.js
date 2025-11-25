@@ -135,3 +135,45 @@ erreurs.innerHTML = "";
 // attacher la fonction au evenement
 let form_add = document.getElementById("form_add");
 form_add.addEventListener("submit", addWorker);
+
+
+
+function workerRender(place) {
+  console.log(workers);
+//   selection du div des employes
+  const listContainer = document.getElementsByClassName(place)[0];
+  listContainer.textContent = "";
+
+  workers.forEach((worker) => {
+    //creation d'elemtn li qui prend deatils du worker
+    let li = document.createElement("li");
+    // ajout du class worker
+    li.className = "worker";
+    // ajout d attribut data-id
+    li.dataset.id = worker.id;
+    // ajout d image nom et role d employe
+    li.innerHTML = `
+            <img src="${worker.photo}" alt="user_photo"/>
+            <div>
+                <strong>${worker.name}</strong><br/>
+                ${worker.role}
+            </div>
+            <button class="remove">X</button>
+        `;
+    // attacher l evenement du click au employe pour afficher les details
+    li.addEventListener("click", detailsWorker);
+    // selection du button du suppression
+    const removeButton = li.querySelector(".remove");
+    console.log(removeButton);
+    // attacher l evenement du click au employe pour supprimer l employe
+    removeButton.addEventListener("click", (e) => {
+        // arreter la propogation d evenemnt parent 
+      e.stopPropagation();
+      // e.stopImmediatePropagation();
+    //   invocation du fonction suppression
+      removeEmploye(e);
+    });
+    // ajout d employ au zone de listage 
+    listContainer.appendChild(li);
+  });
+}
